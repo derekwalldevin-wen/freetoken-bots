@@ -2,7 +2,7 @@
 /**
  * OpenCode free-model radar (Node fallback when Python is missing).
  * Same behavior as radar.py: scan | status | probe --model | sync --dry-run
- * OpenCode-only; no OpenRouter; never writes opencode.json; never prints secrets.
+ * OpenCode Free only; never writes opencode.json; never prints secrets.
  */
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
@@ -111,7 +111,7 @@ function classify(models) {
   const candidates = [];
   const needs_verification = [];
   const notes = [
-    "OpenCode-only scan; OpenRouter/Pi excluded.",
+    "OpenCode Free models only.",
     "eligible[] stays empty until probe verifies plain (+ tools if supported).",
     "IDs matching /free/i under opencode/ are candidates; tool capability unverified at scan.",
     "Paid providers without free marker are ignored.",

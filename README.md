@@ -6,15 +6,6 @@
 >
 > ⚠️ **安装要求：这个 skill 自己不会扫描。** 必须在云电脑上配每天早上 8 点（上海时区 / 本地时间）跑 `scripts/radar.py scan`，否则免费名单会过期。装完第一件事就是把 cron 建起来。
 
-## Relationship to upstream
-
-| Edition | Repo path | Stack |
-|---------|-----------|-------|
-| OpenRouter + Pi | [limin112/min-skill `skills/FreeToken-Bots`](https://github.com/limin112/min-skill/tree/main/skills/FreeToken-Bots) | OpenRouter catalog, Pi child agents |
-| **This (OpenCode)** | 本仓库 | OpenCode Free + **Grok Bot 云电脑** diversion |
-
-Do not put OpenRouter API keys into this edition. Do not expect Pi `models.json` sync here.
-
 ## Default Free pool
 
 | Role | Model |
@@ -101,4 +92,4 @@ FreeToken-Bots/
 
 ## License note
 
-Document your own license when you publish. Upstream min-skill terms apply if you fork that repo.
+Document your own license when you publish.

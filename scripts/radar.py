@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""OpenCode free-model radar (OpenCode-only, no OpenRouter, no Pi).
+"""OpenCode free-model radar (OpenCode Free models only).
 
 Commands:
   scan              Discover free OpenCode models; write report.json
@@ -129,7 +129,7 @@ def classify(models: list[str]) -> dict:
     inactive = []
     eligible = []
     notes = [
-        "OpenCode-only scan; OpenRouter/Pi excluded.",
+        "OpenCode Free models only.",
         "eligible[] stays empty until probe verifies plain (+ tools if supported).",
         "IDs matching /free/i under opencode/ are candidates; tool capability unverified at scan.",
         "Paid providers without free marker are ignored.",

@@ -1,6 +1,6 @@
 ---
 name: freetoken-bots
-description: Discover, verify, and route zero-priced OpenCode Free models for Grok Bot and sibling bots on the Grok Bot cloud box (agent box). Use for OpenCode free-model discovery, headless serve on 127.0.0.1, bot diversion rules, daily health checks, and NEVER-auto-paid fallback. OpenCode-only (not OpenRouter/Pi). Primary host = Grok Bot 云电脑; Windows desktop is optional backup.
+description: Discover, verify, and route zero-priced OpenCode Free models for Grok Bot and sibling bots on the Grok Bot cloud box (agent box). Use for OpenCode free-model discovery, headless serve on 127.0.0.1, bot diversion rules, daily health checks, and NEVER-auto-paid fallback. OpenCode Free only. Primary host = Grok Bot 云电脑; Windows desktop is optional backup.
 version: 0.3.0
 ---
 
@@ -8,8 +8,7 @@ version: 0.3.0
 
 Grok Bot（及同账号下的兄弟助手）只能通过 **Grok Bot 云电脑（agent box）** 上的本机无头 `opencode serve`（`127.0.0.1`）或 OpenCode CLI 调用 OpenCode Free 模型。不要声称替换宿主产品的原生模型。不要自动切到付费 Zen / 第三方。
 
-> **主路径 = Grok Bot 云电脑。** Windows 桌面仅作可选备用（休眠即断）。  
-> Related upstream: [limin112/min-skill FreeToken-Bots](https://github.com/limin112/min-skill/tree/main/skills/FreeToken-Bots) targets OpenRouter + Pi. **This edition** targets OpenCode Free + Grok Bot diversion. Keep them separate; do not mix OpenRouter keys into this stack.
+> **主路径 = Grok Bot 云电脑。** Windows 桌面仅作可选备用（休眠即断）。本 skill 只走 OpenCode Free，不自动切付费。
 
 ## Principles
 
@@ -35,7 +34,7 @@ Known Free ids that may appear in scans but are **not** default-routed until re-
 
 `opencode/exo-free`, `opencode/ling-3.0-flash-fin-free`, `opencode/mimo-v2.6-flash-free`, `opencode/muse-spark-1.3-contributor-free`, `opencode/nemotron-3-ultra-free`, `opencode/nemotron-3.5-lightning-free`, `opencode/step-5-preview-free`
 
-Observed caveats (re-check on your host): Muse Spark may be region-blocked; MiMo Free may require in-app OpenCode client only; Ling 3.0 Flash Fin may be unavailable upstream — prefer Ling 3.1.
+Observed caveats (re-check on your host): Muse Spark may be region-blocked; MiMo Free may require in-app OpenCode client only; Ling 3.0 Flash Fin may be unavailable on some hosts — prefer Ling 3.1.
 
 ## Usage
 
