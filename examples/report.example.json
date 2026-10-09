@@ -1,0 +1,41 @@
+{
+  "scanned_at": "2026-10-09T10:00:00+08:00",
+  "cli_version": "1.x.x",
+  "all_models_count": 42,
+  "candidates": [
+    {
+      "id": "opencode/longcat-2.5-preview-free",
+      "provider": "opencode",
+      "free_marker": true,
+      "tools_verified": false,
+      "plain_verified": true
+    },
+    {
+      "id": "opencode/ling-3.1-flash-free",
+      "provider": "opencode",
+      "free_marker": true,
+      "tools_verified": false,
+      "plain_verified": true
+    },
+    {
+      "id": "opencode/space-bunny-free",
+      "provider": "opencode",
+      "free_marker": true,
+      "tools_verified": false,
+      "plain_verified": true
+    }
+  ],
+  "eligible": [],
+  "needs_verification": [
+    {
+      "id": "opencode/longcat-2.5-preview-free",
+      "reason": "listed as free candidate; tools not probed in this scan"
+    }
+  ],
+  "inactive": [],
+  "notes": [
+    "OpenCode-only scan; OpenRouter/Pi excluded.",
+    "eligible[] stays empty until probe verifies plain (+ tools if supported)."
+  ],
+  "top_recommendation": "opencode/longcat-2.5-preview-free"
+}
