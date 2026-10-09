@@ -1,4 +1,6 @@
-# Setup — Windows desktop (optional backup)
+# Setup — Windows desktop（可选备用 · 非主路径）
+
+> 主路径是 **Grok Bot 云电脑**：见 `setup-linux-box.md`。只有云电脑不可用时才用本页。
 
 Prefer the Linux / agent box for always-on Free. Use Windows only when the box is down.
 

@@ -1,19 +1,21 @@
 ---
 name: freetoken-bots
-description: Discover, verify, and route zero-priced OpenCode Free models for Grok Bot and sibling bots. Use for OpenCode free-model discovery, headless serve on 127.0.0.1, bot diversion rules, daily health checks, and NEVER-auto-paid fallback. OpenCode-only (not OpenRouter/Pi).
-version: 0.2.0
+description: Discover, verify, and route zero-priced OpenCode Free models for Grok Bot and sibling bots on the Grok Bot cloud box (agent box). Use for OpenCode free-model discovery, headless serve on 127.0.0.1, bot diversion rules, daily health checks, and NEVER-auto-paid fallback. OpenCode-only (not OpenRouter/Pi). Primary host = Grok Bot 云电脑; Windows desktop is optional backup.
+version: 0.3.0
 ---
 
 # FreeToken-Bots (OpenCode edition)
 
-Grok Bot (and sibling bots) may call OpenCode Free models **only** through a local headless `opencode serve` bound to `127.0.0.1`, or via the OpenCode CLI. Do not claim to replace the host product's native model. Do not auto-route to paid Zen / third-party providers.
+Grok Bot（及同账号下的兄弟助手）只能通过 **Grok Bot 云电脑（agent box）** 上的本机无头 `opencode serve`（`127.0.0.1`）或 OpenCode CLI 调用 OpenCode Free 模型。不要声称替换宿主产品的原生模型。不要自动切到付费 Zen / 第三方。
 
+> **主路径 = Grok Bot 云电脑。** Windows 桌面仅作可选备用（休眠即断）。  
 > Related upstream: [limin112/min-skill FreeToken-Bots](https://github.com/limin112/min-skill/tree/main/skills/FreeToken-Bots) targets OpenRouter + Pi. **This edition** targets OpenCode Free + Grok Bot diversion. Keep them separate; do not mix OpenRouter keys into this stack.
 
 ## Principles
 
 - **Free** means an OpenCode model id that contains `free` / `Free`, or is on the known OpenCode Free allowlist below. Free eligibility is dynamic — re-scan daily.
 - **Never auto paid.** A 402, quota exhaustion, region block, or rate limit is **not** a reason to call Zen paid, Volcengine paid, or any non-free id. Fail closed; tell the user.
+- **Never auto-post.** Diversion writes drafts only; publish / reply / DM stay on the host bot after human confirm.
 - **Fail-closed model resolution:** refuse any probe/sync id that is not a free candidate. Missing `-free` / `:free` style markers → refuse (do not silently strip and hit paid).
 - **Local only.** Bind serve to `127.0.0.1`. Never expose OpenCode HTTP without auth to the public internet.
 - **Secrets stay off git.** Password files, Basic auth, API keys, machineIds, and absolute user home paths with credentials must use placeholders in docs and env vars in scripts.
@@ -27,7 +29,7 @@ Probe these before promising other Free ids. Prefer this order for **text**; use
 |------|----------|-------|
 | Text default | `opencode/longcat-2.5-preview-free` | Long context, coding, tool-friendly drafts |
 | Text backup | `opencode/ling-3.1-flash-free` | Fast extract / short drafts |
-| Multimodal | `opencode/space-bunny-free` | Image / video understanding |
+| Multimodal | `opencode/space-bunny-free` | Image / video understanding (not image generation) |
 
 Known Free ids that may appear in scans but are **not** default-routed until re-probed:
 
@@ -37,20 +39,20 @@ Observed caveats (re-check on your host): Muse Spark may be region-blocked; MiMo
 
 ## Usage
 
-From this skill directory:
+在 **Grok Bot 云电脑** 上，从本 skill 目录：
 
 ```bash
-# Linux / macOS / agent box
+# Grok Bot 云电脑（主路径）
 export OPENCODE_CLI="$(command -v opencode || echo "$HOME/.opencode/bin/opencode")"
 python3 scripts/radar.py scan
 python3 scripts/radar.py status
 python3 scripts/radar.py probe --model 'opencode/longcat-2.5-preview-free'
 python3 scripts/radar.py sync --dry-run
 
-# Headless serve (cloud / agent box)
+# Headless serve（只绑本机）
 ./scripts/start-serve.sh   # listens 127.0.0.1:4096
 
-# Windows (optional backup host)
+# Windows（可选备用宿主）
 scripts\scan.cmd
 ```
 
@@ -68,26 +70,29 @@ HTTP call pattern against a running serve:
 }
 ```
 
-## Install workflow (agent)
+## Install workflow（agent · 云电脑）
 
-1. Confirm `opencode` CLI (`opencode --version`). Install: `curl -fsSL https://opencode.ai/install | bash` → usually `$HOME/.opencode/bin/opencode`.
-2. Start headless serve with `scripts/start-serve.sh` (creates password file with mode `0600` if missing). Confirm `127.0.0.1:4096` only.
-3. Run `scan`, then `probe` for LongCat / Ling 3.1 / Space Bunny. Record pass/fail + cost (must be 0) in the report.
-4. Apply **bot diversion** from `references/bot-diversion.md`. Publish / money / brand finals stay on the host bot's native model.
-5. Schedule daily `scan` (see Scheduling). On install, tell the user in Chinese:「这个 skill 需要每天早上 8 点跑一次扫描，不配的话免费名单会过期，它自己不会动。」
+1. Confirm you are on the **Grok Bot 云电脑** (Linux agent box), not only the user's sleeping Windows PC.
+2. Confirm `opencode` CLI (`opencode --version`). Install: `curl -fsSL https://opencode.ai/install | bash` → usually `$HOME/.opencode/bin/opencode`.
+3. Start headless serve with `scripts/start-serve.sh` (creates password file with mode `0600` if missing). Confirm `127.0.0.1:4096` only.
+4. Run `scan`, then `probe` for LongCat / Ling 3.1 / Space Bunny. Record pass/fail + cost (must be 0) in the report.
+5. Apply **bot diversion** from `references/bot-diversion.md`. Publish / money / brand finals stay on the host bot's native model — **never auto-post**.
+6. Schedule daily `scan` at 08:00 on the **cloud box** (see Scheduling). On install, tell the user in Chinese:「这个 skill 需要每天早上 8 点在云电脑上跑一次扫描，不配的话免费名单会过期，它自己不会动。」
 
-## Scheduling (required)
+Details: `references/setup-linux-box.md`.
+
+## Scheduling (required · on the cloud box)
 
 This skill does **not** scan by itself.
 
-- Run `python3 /absolute/path/to/scripts/radar.py scan` **every day at 08:00 local** on the machine running OpenCode.
-- Cron example: `0 8 * * * /usr/bin/python3 /path/to/scripts/radar.py scan`
-- Windows: Task Scheduler → daily 08:00 → `scripts\scan.cmd`
+- Run `python3 /absolute/path/to/scripts/radar.py scan` **every day at 08:00 local** on the Grok Bot 云电脑.
+- Cron example: `0 8 * * * /usr/bin/python3 /home/box/freetoken-bots/scripts/radar.py scan`
+- Windows backup only: Task Scheduler → daily 08:00 → `scripts\scan.cmd`
 - Compare against previous report; surface newly listed, delisted, and broken Free models.
 
 ## Windows optional backup
 
-Cloud / agent-box serve is preferred so the desktop can sleep. Windows desktop is optional backup:
+云电脑 serve 是首选，桌面才能睡。Windows 桌面是可选备用：
 
 1. Install OpenCode Desktop.
 2. Startup folder shortcut target (placeholders only):
@@ -97,7 +102,7 @@ Cloud / agent-box serve is preferred so the desktop can sleep. Windows desktop i
 ```
 
 3. Point `OPENCODE_CLI` at that `opencode-cli.exe` when running radar on Windows.
-4. Desktop powered off → Free via that host stops. Prefer the always-on box.
+4. Desktop powered off → Free via that host stops. Prefer the always-on 云电脑.
 
 Details: `references/setup-windows.md`, `references/setup-linux-box.md`.
 
